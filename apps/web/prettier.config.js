@@ -1,3 +1,6 @@
+import prettierGlobal from "prettier-config";
+
 module.exports = {
-  plugins: [require('prettier-plugin-tailwindcss')]
-}
+  ...prettierGlobal,
+  plugins: [require("prettier-plugin-tailwindcss")]
+};

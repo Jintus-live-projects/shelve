@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Food {
+    id Int @default(autoincrement()) @id
+    looseStock LooseStock[]
+    storedStock StoredStock[]
+    name String
+}
+
+model Location {
+    id Int @default(autoincrement()) @id
+    name String
+    temperature Float?
+    looseStocks LooseStock[]
+    storedStocks StoredStock[]
+}
+
+model LooseStock {
+    id Int @default(autoincrement()) @id
+    food Food @relation(fields: [foodId], references: [id])
+    foodId Int @unique
+    location Location @relation(fields: [locationId], references: [id])
+    locationId Int @unique
+    filledQuantity Float
+    fillingPoucentage Float
+}
+
+model StoredStock {
+    id Int @default(autoincrement()) @id
+    food Food @relation(fields: [foodId], references: [id])
+    foodId Int @unique
+    location Location @relation(fields: [locationId], references: [id])
+    locationId Int @unique
+    quantity Float
+    bestBeforeDate DateTime
+}

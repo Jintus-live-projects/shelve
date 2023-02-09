@@ -1,0 +1,29 @@
+type Food {
+    id: Int!
+    name: String!
+}
+
+type Location {
+    id: Int!
+    name: String!
+    temperature: Float
+}
+
+input CreateLocation {
+    name: String!
+    temperature: Float
+}
+
+input CreateFood {
+    name: String!
+    locationId: Int!
+}
+
+type Query {
+    foods: [Food!]!
+}
+
+type Mutation {
+    createLocation(location: CreateLocation!): Location
+    createFood(food: CreateFood!): Food
+}

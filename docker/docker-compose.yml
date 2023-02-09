@@ -1,0 +1,16 @@
+name: shelve
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: jintuslive
+      POSTGRES_DB: shelve
+      POSTGRES_USER: jintus
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
