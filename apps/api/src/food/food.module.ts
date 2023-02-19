@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaModule } from '../prisma';
 import { FoodResolver } from './food.resolver';
 import { FoodService } from './food.service';
 
 @Module({
-  providers: [PrismaService, FoodService, FoodResolver],
+  imports: [PrismaModule],
+  providers: [FoodService, FoodResolver],
 })
 export class FoodModule {}

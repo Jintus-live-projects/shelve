@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Location } from '@prisma/client';
 import { CreateLocation } from '../models';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma';
 
 @Injectable()
 export class LocationService {
@@ -14,5 +14,9 @@ export class LocationService {
         temperature: input.temperature,
       },
     });
+  }
+
+  async locations(): Promise<Location[]> {
+    return this.prisma.location.findMany();
   }
 }

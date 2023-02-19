@@ -15,6 +15,7 @@ model Food {
     looseStock LooseStock[]
     storedStock StoredStock[]
     name String
+    barcode String? @unique
 }
 
 model Location {
@@ -27,20 +28,29 @@ model Location {
 
 model LooseStock {
     id Int @default(autoincrement()) @id
-    food Food @relation(fields: [foodId], references: [id])
+    food Food @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     foodId Int @unique
-    location Location @relation(fields: [locationId], references: [id])
+    location Location @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     locationId Int @unique
     filledQuantity Float
     fillingPoucentage Float
+    customBarcodes CustomBarcode[]
 }
 
 model StoredStock {
     id Int @default(autoincrement()) @id
-    food Food @relation(fields: [foodId], references: [id])
+    food Food @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     foodId Int @unique
-    location Location @relation(fields: [locationId], references: [id])
+    location Location @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     locationId Int @unique
     quantity Float
     bestBeforeDate DateTime
+}
+
+model CustomBarcode {
+    id Int @default(autoincrement()) @id
+    barcode String @unique
+    color String @unique
+    looseStock LooseStock? @relation(fields: [looseStockId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+    looseStockId Int?
 }

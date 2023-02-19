@@ -3,8 +3,10 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import * as process from 'process';
+import { CustomBarcodeModule } from './custom-barcode';
 import { FoodModule } from './food';
 import { LocationModule } from './location';
+import { ProductInformationModule } from './product-information';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { LocationModule } from './location';
     }),
     FoodModule,
     LocationModule,
+    CustomBarcodeModule,
+    ProductInformationModule,
   ],
 })
 export class AppModule {}

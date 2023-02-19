@@ -1,12 +1,24 @@
 type Food {
     id: Int!
     name: String!
+    barcode: String
 }
 
 type Location {
     id: Int!
     name: String!
     temperature: Float
+}
+
+type CustomBarcode {
+    id: Int!
+    barcode: String!
+    color: String!
+}
+
+type ProductInformation {
+    barcode: String!
+    name: String!
 }
 
 input CreateLocation {
@@ -16,14 +28,19 @@ input CreateLocation {
 
 input CreateFood {
     name: String!
-    locationId: Int!
+    barcode: String
 }
 
 type Query {
     foods: [Food!]!
+    locations: [Location!]!
+    customBarcodes: [CustomBarcode!]!
+    foodByBarcode(barcode: String!): Food
+    productInformationByBarcode(barcodes: [String!]!): [ProductInformation!]!
 }
 
 type Mutation {
-    createLocation(location: CreateLocation!): Location
-    createFood(food: CreateFood!): Food
+    createCustomBarcode: CustomBarcode!
+    createLocation(location: CreateLocation!): Location!
+    createFood(food: CreateFood!): Food!
 }
