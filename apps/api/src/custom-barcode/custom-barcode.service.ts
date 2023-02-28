@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CustomBarcode } from '@prisma/client';
+import { CustomBarcode } from '../models';
 import { PrismaService } from '../prisma';
 import { getPastelColor } from './colors.utils';
+import { fromEntities, fromEntity } from './custom-barcode.mapper';
 
 const BARCODE_PREFIX = 'shelve';
 
@@ -12,16 +13,18 @@ export class CustomBarcodeService {
   async generateBarcode(): Promise<CustomBarcode> {
     const generatedColor = await this.generateColor();
 
-    return this.prisma.customBarcode.create({
+    const barcode = await this.prisma.customBarcodeEntity.create({
       data: {
         color: generatedColor,
         barcode: `${BARCODE_PREFIX}-${btoa(generatedColor)}`,
       },
     });
+
+    return fromEntity(barcode);
   }
 
   private async generateColor(): Promise<string> {
-    const barcodes = await this.prisma.customBarcode.findMany({
+    const barcodes = await this.prisma.customBarcodeEntity.findMany({
       select: {
         color: true,
       },
@@ -40,8 +43,9 @@ export class CustomBarcodeService {
     return generatedColor;
   }
 
-  customBarcodes(): Promise<CustomBarcode[]> {
-    return this.prisma.customBarcode.findMany();
+  async customBarcodes(): Promise<CustomBarcode[]> {
+    const barcodes = await this.prisma.customBarcodeEntity.findMany();
+    return fromEntities(barcodes);
   }
 
   removeCustomBarcodes(barcodes: string[]): string[] {

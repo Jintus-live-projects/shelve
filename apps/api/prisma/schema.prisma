@@ -10,47 +10,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Food {
+model FoodEntity {
     id Int @default(autoincrement()) @id
-    looseStock LooseStock[]
-    storedStock StoredStock[]
+    looseStock LooseStockEntity[]
+    storedStock StoredStockEntity[]
     name String
     barcode String? @unique
 }
 
-model Location {
+model LocationEntity {
     id Int @default(autoincrement()) @id
     name String
     temperature Float?
-    looseStocks LooseStock[]
-    storedStocks StoredStock[]
+    looseStocks LooseStockEntity[]
+    storedStocks StoredStockEntity[]
 }
 
-model LooseStock {
+model LooseStockEntity {
     id Int @default(autoincrement()) @id
-    food Food @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    foodId Int @unique
-    location Location @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    locationId Int @unique
+    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    foodId Int
+    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    locationId Int
     filledQuantity Float
-    fillingPoucentage Float
-    customBarcodes CustomBarcode[]
+    fillingPourcentage Float
+    customBarcodes CustomBarcodeEntity[]
+
+    @@unique([foodId, locationId])
 }
 
-model StoredStock {
+model StoredStockEntity {
     id Int @default(autoincrement()) @id
-    food Food @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    foodId Int @unique
-    location Location @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    locationId Int @unique
+    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    foodId Int
+    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    locationId Int
     quantity Float
     bestBeforeDate DateTime
+
+    @@unique([foodId, locationId])
 }
 
-model CustomBarcode {
+model CustomBarcodeEntity {
     id Int @default(autoincrement()) @id
     barcode String @unique
     color String @unique
-    looseStock LooseStock? @relation(fields: [looseStockId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+    looseStock LooseStockEntity? @relation(fields: [looseStockId], references: [id], onUpdate: Cascade, onDelete: SetNull)
     looseStockId Int?
 }

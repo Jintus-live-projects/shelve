@@ -1,38 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { Food } from '@prisma/client';
-import { CreateFood } from '../models';
+import { CreateFood, Food } from '../models';
 import { PrismaService } from '../prisma';
+import { fromEntities, fromEntity } from './food.mapper';
 
 @Injectable()
 export class FoodService {
   constructor(private readonly prisma: PrismaService) {}
 
-  foods(): Promise<Food[]> {
-    return this.prisma.food.findMany();
+  async foods(): Promise<Food[]> {
+    const foods = await this.prisma.foodEntity.findMany();
+    return fromEntities(foods);
   }
 
-  foodById(id: number): Promise<Food> {
-    return this.prisma.food.findUnique({
+  async foodById(id: number): Promise<Food> {
+    const food = await this.prisma.foodEntity.findUnique({
       where: {
         id,
       },
     });
+    return fromEntity(food);
   }
 
-  foodByBarcode(barcode: string): Promise<Food> {
-    return this.prisma.food.findUnique({
+  async foodByBarcode(barcode: string): Promise<Food> {
+    const food = await this.prisma.foodEntity.findUnique({
       where: {
         barcode: barcode,
       },
     });
+    return fromEntity(food);
   }
 
-  createFood(food: CreateFood) {
-    return this.prisma.food.create({
+  async createFood(foodInput: CreateFood): Promise<Food> {
+    const food = await this.prisma.foodEntity.create({
       data: {
-        name: food.name,
-        barcode: food.barcode,
+        name: foodInput.name,
+        barcode: foodInput.barcode,
       },
     });
+    return fromEntity(food);
+  }
+
+  async searchFood(query: string): Promise<Food[]> {
+    const foods = await this.prisma.foodEntity.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    return fromEntities(foods);
   }
 }

@@ -2,6 +2,8 @@ type Food {
     id: Int!
     name: String!
     barcode: String
+    looseStock: [LooseStock!]!
+    storedStock: [StoredStock!]!
 }
 
 type Location {
@@ -19,6 +21,30 @@ type CustomBarcode {
 type ProductInformation {
     barcode: String!
     name: String!
+    brand: String!
+}
+
+interface Stock {
+    id: Int!
+    food: Food!
+    location: Location!
+}
+
+type LooseStock implements Stock {
+    id: Int!
+    food: Food!
+    location: Location!
+    filledQuantity: Float!
+    fillingPourcentage: Float!
+    barcodes: [CustomBarcode!]!
+}
+
+type StoredStock implements Stock {
+    id: Int!
+    food: Food!
+    location: Location!
+    quantity: Float!
+    bestBeforeDate: String
 }
 
 input CreateLocation {
@@ -31,16 +57,34 @@ input CreateFood {
     barcode: String
 }
 
+input BulkStoredFood {
+    foodId: Int!
+    locationId: Int!
+    filledQuantity: Float!
+    fillingPourcentage: Float!
+}
+
+input StoredFood {
+    foodId: Int!
+    locationId: Int!
+    quantity: Float!
+    bestBeforeDate: String
+}
+
 type Query {
     foods: [Food!]!
     locations: [Location!]!
     customBarcodes: [CustomBarcode!]!
     foodByBarcode(barcode: String!): Food
     productInformationByBarcode(barcodes: [String!]!): [ProductInformation!]!
+    searchFood(query: String!): [Food!]!
+    storedStocks: [StoredStock!]!
 }
 
 type Mutation {
     createCustomBarcode: CustomBarcode!
     createLocation(location: CreateLocation!): Location!
     createFood(food: CreateFood!): Food!
+    bulkStore(storedFood: BulkStoredFood!): LooseStock!
+    store(storedFood: StoredFood!): StoredStock!
 }
