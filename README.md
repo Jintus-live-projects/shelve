@@ -1,73 +1,68 @@
-# Turborepo starter
+# Bienvenue sur le projet Shelve
 
-This is an official pnpm starter turborepo.
+## Présentation et contexte
 
-## What's inside?
+Je me présente Justin GALLY, connu sous le nom de Jintus sur [Twitch](https://www.twitch.tv/jintuslive) et [Twitter](https://www.twitter.com/jintuslive).
 
-This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes the following packages/apps:
+Je suis développeur WEB freelance sur Lyon et me suis lancé dans une aventure sur Twitch depuis peu. Mon but ? Partager à un maximum de personnes ma passion, le développement informatique, découvrir et m'améliorer en continue sur les technos WEB.
 
-### Apps and Packages
+Dans cette optique, j'anime une émission où je développe des applications en direct.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+Le projet shelve en fait partie.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Stack technique
 
-### Utilities
+> **Prérequis**
+>
+> - [Node.js](https://nodejs.org/en/) (19.5.x)
+> - [Pnpm](https://pnpm.io/fr/pnpm-cli) (7.26.X)
+> - [Docker](https://www.docker.com/)
 
-This turborepo has some additional tools already setup for you:
+Le projet est découpé en 3 applications :
+- Une application back, basée sur le framework [NestJS](https://nestjs.com/), portant la logique métier principale et l'accès à la base de donnée
+- Une [application mobile](https://github.com/Jintus-live-projects/shelve-flutter), basée sur le framework [Flutter](https://flutter.dev/), permettant l'ajout et la supression d'aliment dans le stock
+- Une application front, basée sur le framework [NextJS](https://nextjs.org/), de gestion plus globale en mode dashboard. 
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Installer le projet
 
-### Build
+> **Si vous n'êtes pas un viewer régulier**
+>
+> Il faut faire un fork du projet avant de faire les étapes suivantes.
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm run build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
+Cloner le projet en local
 
 ```
-cd my-turborepo
-pnpm run dev
+git clone [git URL]
 ```
 
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+Se déplacer à la racine du projet, puis installer les dépendances externes :
 
 ```
-cd my-turborepo
-pnpm dlx turbo login
+cd shelve
+pnpm install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
+Pour lancer le projet en local, lancer le container docker de la base de données et lancer l'application
 
 ```
-pnpm dlx turbo link
+docker compose -f .\docker\docker-compose.yml up -d
+pnpm turbo dev
 ```
 
-## Useful Links
+L'application front est accesible sur http://localhost:3000 où on accède à l'application
 
-Learn more about the power of Turborepo:
+Le playground GraphQL est accesible à l'addresse suivante http://localhost:3333/graphql
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Contribution
+
+Tout le monde peut proposer des pull requests qui seront relu en live sur [Twitch](https://www.twitch.tv/jintuslive).
+Les pull requests devront être associées à une issue Github, existante ou nouvellement créée.
+
+Si vous souhaitez être un collaborateur actif du projet et donc y accéder en tant que développeur, il faudra être un viewer régulier de la chaîne et participer aux émissions de façon active. Passer en live en discuter 🔴
+
+### Règle de contribution
+
+Toute pull request doit :
+- Passer le pipeline d'intégration continue avant d'être relu
+- Être relu par moi ou un contributeur actif du projet
+
