@@ -12,49 +12,79 @@ datasource db {
 
 model FoodEntity {
     id Int @default(autoincrement()) @id
-    looseStock LooseStockEntity[]
-    storedStock StoredStockEntity[]
-    name String
-    barcode String? @unique
+    name String @unique
+    categories FoodCategoryEntity[]
+    sealedStockList SealedStockEntity[]
+    unitStockList UnitStockEntity[]
+    looseContainers LooseContainerEntity[]
+}
+
+model FoodCategoryEntity {
+    id Int @default(autoincrement()) @id
+    translateKey String? @unique
+    customName String? @unique
+    foods FoodEntity[]
+}
+
+enum QuantityUnitEnum {
+    GRAM
+    LITER
+    UNIT
+}
+
+model SealedStockEntity {
+    id Int @default(autoincrement()) @id
+    foodId Int
+    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    locationId Int
+    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    quantity Float
+    unit QuantityUnitEnum
+    expiryDate DateTime
+    purchaseDate DateTime
+
+    @@unique([foodId, locationId, unit])
+}
+
+model UnitStockEntity {
+    id Int @default(autoincrement()) @id
+    foodId Int
+    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    locationId Int
+    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    quantity Float
+    unit QuantityUnitEnum
+    expiryDate DateTime
+    purchaseDate DateTime
+
+    @@unique([foodId, locationId, unit])
+}
+
+model LooseContainerEntity {
+    id Int @default(autoincrement()) @id
+    foodId Int
+    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    locationId Int
+    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    fullQuantity Float
+    unit QuantityUnitEnum
+    currentPercentage Float
+    customBarCode CustomBarCodeEntity?
+
+    @@unique([foodId, locationId, unit])
 }
 
 model LocationEntity {
     id Int @default(autoincrement()) @id
-    name String
-    temperature Float?
-    looseStocks LooseStockEntity[]
-    storedStocks StoredStockEntity[]
+    name String @unique
+    sealedStockList SealedStockEntity[]
+    unitStockList UnitStockEntity[]
+    looseContainers LooseContainerEntity[]
 }
 
-model LooseStockEntity {
-    id Int @default(autoincrement()) @id
-    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    foodId Int
-    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    locationId Int
-    filledQuantity Float
-    fillingPourcentage Float
-    customBarcodes CustomBarcodeEntity[]
-
-    @@unique([foodId, locationId])
-}
-
-model StoredStockEntity {
-    id Int @default(autoincrement()) @id
-    food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    foodId Int
-    location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    locationId Int
-    quantity Float
-    bestBeforeDate DateTime
-
-    @@unique([foodId, locationId])
-}
-
-model CustomBarcodeEntity {
-    id Int @default(autoincrement()) @id
-    barcode String @unique
+model CustomBarCodeEntity {
+    code String @id
     color String @unique
-    looseStock LooseStockEntity? @relation(fields: [looseStockId], references: [id], onUpdate: Cascade, onDelete: SetNull)
-    looseStockId Int?
+    looseContainerId Int? @unique
+    looseContainer LooseContainerEntity? @relation(fields: [looseContainerId], references: [id], onUpdate: Cascade, onDelete: SetNull)
 }

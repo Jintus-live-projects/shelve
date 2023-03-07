@@ -10,7 +10,7 @@ export interface ProductResult {
 export const fromProductResult = (
   entity: ProductResult,
 ): ProductInformation => ({
-  barcode: entity.code,
+  code: entity.code,
   name: entity.product_name_fr ?? entity.product_name,
   brand: entity.brands,
 });

@@ -3,11 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import * as process from 'process';
-import { CustomBarcodeModule } from './custom-barcode';
-import { FoodModule } from './food';
-import { LocationModule } from './location';
 import { ProductInformationModule } from './product-information';
-import { StoredStockModule } from './stored-stock';
 
 @Module({
   imports: [
@@ -20,11 +16,7 @@ import { StoredStockModule } from './stored-stock';
         emitTypenameField: true,
       },
     }),
-    FoodModule,
-    LocationModule,
-    CustomBarcodeModule,
     ProductInformationModule,
-    StoredStockModule,
   ],
 })
 export class AppModule {}

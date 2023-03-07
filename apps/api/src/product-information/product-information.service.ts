@@ -8,14 +8,12 @@ import { fromProductResults } from './product-information.mapper';
 export class ProductInformationService {
   constructor(private readonly http: HttpService) {}
 
-  async productInformationByBarcode(
-    barcodes: string[],
-  ): Promise<ProductInformation[]> {
+  async productsInformation(barCodes: string[]): Promise<ProductInformation[]> {
     const data = await firstValueFrom(
       this.http
         .get(`search`, {
           params: {
-            code: barcodes.join(),
+            code: barCodes.join(),
             fields: 'code,product_name_fr,product_name,brands',
           },
         })

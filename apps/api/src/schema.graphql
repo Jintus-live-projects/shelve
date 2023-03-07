@@ -1,90 +1,81 @@
+enum QuantityUnit {
+    GRAM
+    LITER
+    UNIT
+}
+
+type Quantity {
+    value: Float!
+    unit: QuantityUnit!
+}
+
 type Food {
     id: Int!
     name: String!
-    barcode: String
-    looseStock: [LooseStock!]!
-    storedStock: [StoredStock!]!
+    categories: [FoodCategory!]!
+    stock: [Stock!]!
 }
 
 type Location {
     id: Int!
     name: String!
-    temperature: Float
+    stock: [Stock!]!
 }
 
-type CustomBarcode {
+type FoodCategory {
     id: Int!
-    barcode: String!
-    color: String!
-}
-
-type ProductInformation {
-    barcode: String!
-    name: String!
-    brand: String!
+    translateKey: String
+    customName: String
+    foods: [Food!]!
 }
 
 interface Stock {
     id: Int!
     food: Food!
     location: Location!
+    quantity: Quantity!
 }
 
-type LooseStock implements Stock {
+type UnitStock implements Stock {
     id: Int!
     food: Food!
     location: Location!
-    filledQuantity: Float!
-    fillingPourcentage: Float!
-    barcodes: [CustomBarcode!]!
+    quantity: Quantity!
+    expiryDate: String!
+    purchaseDate: String!
 }
 
-type StoredStock implements Stock {
+type SealedStock implements Stock {
     id: Int!
     food: Food!
     location: Location!
-    quantity: Float!
-    bestBeforeDate: String
+    quantity: Quantity!
+    expiryDate: String!
+    purchaseDate: String!
 }
 
-input CreateLocation {
+type LooseContainer implements Stock {
+    id: Int!
+    food: Food!
+    location: Location!
+    quantity: Quantity!
+    customBarCode: CustomBarCode!
+    fullQuantity: Quantity!
+    currentPercentage: Float!
+}
+
+type CustomBarCode {
+    code: String!
+    color: String!
+    looseContainer: LooseContainer
+}
+
+type ProductInformation {
+    code: String!
+    brand: String!
     name: String!
-    temperature: Float
-}
-
-input CreateFood {
-    name: String!
-    barcode: String
-}
-
-input BulkStoredFood {
-    foodId: Int!
-    locationId: Int!
-    filledQuantity: Float!
-    fillingPourcentage: Float!
-}
-
-input StoredFood {
-    foodId: Int!
-    locationId: Int!
-    quantity: Float!
-    bestBeforeDate: String
 }
 
 type Query {
-    foods: [Food!]!
-    locations: [Location!]!
-    customBarcodes: [CustomBarcode!]!
-    foodByBarcode(barcode: String!): Food
-    productInformationByBarcode(barcodes: [String!]!): [ProductInformation!]!
-    searchFood(query: String!): [Food!]!
-    storedStocks: [StoredStock!]!
-}
-
-type Mutation {
-    createCustomBarcode: CustomBarcode!
-    createLocation(location: CreateLocation!): Location!
-    createFood(food: CreateFood!): Food!
-    bulkStore(storedFood: BulkStoredFood!): LooseStock!
-    store(storedFood: StoredFood!): StoredStock!
+    productsInformation(barCodes: [String!]!): [ProductInformation!]!
 }
