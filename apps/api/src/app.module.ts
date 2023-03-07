@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import * as process from 'process';
+import { FoodModule } from './food';
 import { ProductInformationModule } from './product-information';
 
 @Module({
@@ -16,6 +17,7 @@ import { ProductInformationModule } from './product-information';
         emitTypenameField: true,
       },
     }),
+    FoodModule,
     ProductInformationModule,
   ],
 })

@@ -79,3 +79,12 @@ type ProductInformation {
 type Query {
     productsInformation(barCodes: [String!]!): [ProductInformation!]!
 }
+
+input CreateFoodInput {
+    name: String!
+    categoryIds: [Int!]!
+}
+
+type Mutation {
+    createFood(food: CreateFoodInput): Food!
+}
