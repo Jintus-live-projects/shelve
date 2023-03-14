@@ -77,8 +77,10 @@ type ProductInformation {
 }
 
 input FoodListFilterInput {
-    categoryId: Int!
+    categoryId: Int
+    searchQuery: String
 }
+
 
 type Query {
     productsInformation(barCodes: [String!]!): [ProductInformation!]!

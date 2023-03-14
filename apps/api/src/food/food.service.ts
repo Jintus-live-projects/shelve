@@ -34,21 +34,25 @@ export class FoodService {
   }
 
   async foods(filter?: FoodListFilterInput) {
-    let findManyArgs;
-
-    if (filter) {
-      findManyArgs = {
-        where: {
-          categories: {
-            some: {
-              id: filter.categoryId,
+    const foods = await this.prisma.foodEntity.findMany({
+      where: filter && {
+        AND: [
+          filter.searchQuery && {
+            name: {
+              contains: filter.searchQuery,
+              mode: 'insensitive',
             },
           },
-        },
-      };
-    }
-
-    const foods = await this.prisma.foodEntity.findMany(findManyArgs);
+          filter.categoryId && {
+            categories: filter.categoryId && {
+              some: {
+                id: filter.categoryId,
+              },
+            },
+          },
+        ],
+      },
+    });
     return fromEntities(foods);
   }
 
