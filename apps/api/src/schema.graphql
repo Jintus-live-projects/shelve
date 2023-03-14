@@ -85,6 +85,12 @@ input CreateFoodInput {
     categoryIds: [Int!]!
 }
 
+input CreateFoodCategoryInput {
+    name: String!
+    foodIds: [Int!]!
+}
+
 type Mutation {
-    createFood(food: CreateFoodInput): Food!
+    createFood(food: CreateFoodInput!): Food!
+    createFoodCategory(foodCategory: CreateFoodCategoryInput!): FoodCategory!
 }
