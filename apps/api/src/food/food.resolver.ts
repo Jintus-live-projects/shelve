@@ -7,7 +7,12 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { CreateFoodInput, Food, FoodCategory } from 'src/models';
+import {
+  CreateFoodInput,
+  Food,
+  FoodCategory,
+  FoodListFilterInput,
+} from 'src/models';
 import { FoodService } from './food.service';
 
 @Injectable()
@@ -21,8 +26,8 @@ export class FoodResolver {
   }
 
   @Query()
-  foods(): Promise<Food[]> {
-    return this.foodService.foods();
+  foods(@Args('filter') filter?: FoodListFilterInput): Promise<Food[]> {
+    return this.foodService.foods(filter);
   }
 
   @ResolveField()

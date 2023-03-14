@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateFoodInput, Food, FoodCategory } from 'src/models';
 import * as FoodCategoryMapper from '../food-category/food-category.mapper';
+import { FoodListFilterInput } from '../models';
 import { catchPrismaClientError, PrismaService } from '../prisma';
 import { fromEntities, fromEntity } from './food.mapper';
 
@@ -32,8 +33,22 @@ export class FoodService {
     }
   }
 
-  async foods() {
-    const foods = await this.prisma.foodEntity.findMany();
+  async foods(filter?: FoodListFilterInput) {
+    let findManyArgs;
+
+    if (filter) {
+      findManyArgs = {
+        where: {
+          categories: {
+            some: {
+              id: filter.categoryId,
+            },
+          },
+        },
+      };
+    }
+
+    const foods = await this.prisma.foodEntity.findMany(findManyArgs);
     return fromEntities(foods);
   }
 
