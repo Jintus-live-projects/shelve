@@ -3,9 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateFoodInput, Food } from 'src/models';
+import { CreateFoodInput, Food, FoodCategory } from 'src/models';
+import * as FoodCategoryMapper from '../food-category/food-category.mapper';
 import { catchPrismaClientError, PrismaService } from '../prisma';
-import { fromEntity } from './food.mapper';
+import { fromEntities, fromEntity } from './food.mapper';
 
 @Injectable()
 export class FoodService {
@@ -29,5 +30,24 @@ export class FoodService {
         P2025: () => new NotFoundException(`At least a category is not found`),
       });
     }
+  }
+
+  async foods() {
+    const foods = await this.prisma.foodEntity.findMany();
+    return fromEntities(foods);
+  }
+
+  async categoriesByFoodId(foodId: number): Promise<FoodCategory[]> {
+    const categories = await this.prisma.foodCategoryEntity.findMany({
+      where: {
+        foods: {
+          some: {
+            id: foodId,
+          },
+        },
+      },
+    });
+
+    return FoodCategoryMapper.fromEntities(categories);
   }
 }

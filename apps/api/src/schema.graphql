@@ -78,6 +78,7 @@ type ProductInformation {
 
 type Query {
     productsInformation(barCodes: [String!]!): [ProductInformation!]!
+    foods: [Food!]!
 }
 
 input CreateFoodInput {

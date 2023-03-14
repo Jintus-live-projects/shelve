@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { CreateFoodInput, Food } from 'src/models';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import { CreateFoodInput, Food, FoodCategory } from 'src/models';
 import { FoodService } from './food.service';
 
 @Injectable()
@@ -11,5 +18,15 @@ export class FoodResolver {
   @Mutation()
   createFood(@Args('food') food: CreateFoodInput): Promise<Food> {
     return this.foodService.createFood(food);
+  }
+
+  @Query()
+  foods(): Promise<Food[]> {
+    return this.foodService.foods();
+  }
+
+  @ResolveField()
+  categories(@Parent() parent: Food): Promise<FoodCategory[]> {
+    return this.foodService.categoriesByFoodId(parent.id);
   }
 }

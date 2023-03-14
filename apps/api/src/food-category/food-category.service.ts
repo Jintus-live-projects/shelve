@@ -37,12 +37,12 @@ export class FoodCategoryService {
     }
   }
 
-  async foodsByFoodCategoryId(id: number) {
+  async foodsByFoodCategoryId(foodCategoryId: number) {
     const foods = await this.prisma.foodEntity.findMany({
       where: {
         categories: {
           some: {
-            id,
+            id: foodCategoryId,
           },
         },
       },
