@@ -18,7 +18,7 @@ export class FoodService {
       const createdFood = await this.prisma.foodEntity.create({
         data: {
           name: food.name,
-          categories: {
+          categories: food.categoryIds && {
             connect: food.categoryIds.map((id) => ({ id })),
           },
         },

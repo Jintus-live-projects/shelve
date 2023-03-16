@@ -89,15 +89,20 @@ type Query {
 
 input CreateFoodInput {
     name: String!
-    categoryIds: [Int!]!
+    categoryIds: [Int!]
 }
 
 input CreateFoodCategoryInput {
     name: String!
-    foodIds: [Int!]!
+    foodIds: [Int!]
+}
+
+input CreateLocationInput {
+    name: String!
 }
 
 type Mutation {
     createFood(food: CreateFoodInput!): Food!
     createFoodCategory(foodCategory: CreateFoodCategoryInput!): FoodCategory!
+    createLocation(location: CreateLocationInput!): Location!
 }

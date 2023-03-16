@@ -5,6 +5,7 @@ import { join } from 'path';
 import * as process from 'process';
 import { FoodModule } from './food';
 import { FoodCategoryModule } from './food-category';
+import { LocationModule } from './location';
 import { ProductInformationModule } from './product-information';
 
 @Module({
@@ -21,6 +22,7 @@ import { ProductInformationModule } from './product-information';
     FoodModule,
     ProductInformationModule,
     FoodCategoryModule,
+    LocationModule,
   ],
 })
 export class AppModule {}
