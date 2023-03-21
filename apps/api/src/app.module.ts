@@ -8,6 +8,7 @@ import { FoodModule } from './food';
 import { FoodCategoryModule } from './food-category';
 import { LocationModule } from './location';
 import { ProductInformationModule } from './product-information';
+import { StockModule } from './stock';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ProductInformationModule } from './product-information';
     FoodCategoryModule,
     LocationModule,
     CustomBarcodeModule,
+    StockModule,
   ],
 })
 export class AppModule {}

@@ -22,4 +22,13 @@ export class LocationService {
       });
     }
   }
+
+  async locationById(id: number): Promise<Location> {
+    const location = await this.prisma.locationEntity.findUnique({
+      where: {
+        id,
+      },
+    });
+    return fromEntity(location);
+  }
 }

@@ -69,4 +69,13 @@ export class FoodService {
 
     return FoodCategoryMapper.fromEntities(categories);
   }
+
+  async foodById(id: number): Promise<Food> {
+    const food = await this.prisma.foodEntity.findUnique({
+      where: {
+        id,
+      },
+    });
+    return fromEntity(food);
+  }
 }

@@ -42,8 +42,6 @@ model SealedStockEntity {
     unit QuantityUnitEnum
     expiryDate DateTime
     purchaseDate DateTime
-
-    @@unique([foodId, locationId, unit])
 }
 
 model UnitStockEntity {
@@ -56,8 +54,6 @@ model UnitStockEntity {
     unit QuantityUnitEnum
     expiryDate DateTime
     purchaseDate DateTime
-
-    @@unique([foodId, locationId, unit])
 }
 
 model LooseContainerEntity {
@@ -70,8 +66,6 @@ model LooseContainerEntity {
     unit QuantityUnitEnum
     currentPercentage Float
     customBarCode CustomBarCodeEntity?
-
-    @@unique([foodId, locationId, unit])
 }
 
 model LocationEntity {

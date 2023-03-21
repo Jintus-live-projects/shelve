@@ -6,5 +6,6 @@ import { FoodService } from './food.service';
 @Module({
   imports: [PrismaModule],
   providers: [FoodService, FoodResolver],
+  exports: [FoodService],
 })
 export class FoodModule {}

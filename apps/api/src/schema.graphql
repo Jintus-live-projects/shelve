@@ -101,9 +101,19 @@ input CreateLocationInput {
     name: String!
 }
 
+input AddUnitStockInput {
+    foodId: Int!
+    locationId: Int!
+    quantity: Float!
+    quantityUnit: QuantityUnit!
+    purchaseDate: String!
+    expiryDate: String!
+}
+
 type Mutation {
     createFood(food: CreateFoodInput!): Food!
     createFoodCategory(foodCategory: CreateFoodCategoryInput!): FoodCategory!
     createLocation(location: CreateLocationInput!): Location!
     createCustomBarCode: CustomBarCode
+    addUnitStock(stock: AddUnitStockInput!): UnitStock!
 }
