@@ -38,6 +38,8 @@ model SealedStockEntity {
     food FoodEntity @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     locationId Int
     location LocationEntity @relation(fields: [locationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    barCode String
+    brand String
     quantity Float
     unit QuantityUnitEnum
     expiryDate DateTime

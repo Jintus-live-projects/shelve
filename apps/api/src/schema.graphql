@@ -52,6 +52,8 @@ type SealedStock implements Stock {
     quantity: Quantity!
     expiryDate: String!
     purchaseDate: String!
+    barCode: String!
+    brand: String!
 }
 
 type LooseContainer implements Stock {
@@ -110,10 +112,22 @@ input AddUnitStockInput {
     expiryDate: String!
 }
 
+input AddSealedStockInput {
+    foodId: Int!
+    locationId: Int!
+    quantity: Float!
+    quantityUnit: QuantityUnit!
+    purchaseDate: String!
+    expiryDate: String!
+    barCode: String!
+    brand: String!
+}
+
 type Mutation {
     createFood(food: CreateFoodInput!): Food!
     createFoodCategory(foodCategory: CreateFoodCategoryInput!): FoodCategory!
     createLocation(location: CreateLocationInput!): Location!
     createCustomBarCode: CustomBarCode
     addUnitStock(stock: AddUnitStockInput!): UnitStock!
+    addSealedStock(stock: AddSealedStockInput!): SealedStock!
 }
